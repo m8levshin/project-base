@@ -8,12 +8,16 @@ import kotlinx.coroutines.withContext
 import org.slf4j.MDC
 
 
+private const val AUTHENTICATION_MDC_FILLER_PLUGIN = "AuthenticationMdcFillerPlugin"
+private const val ADDING_AUTH_TO_MDC_AFTER_AUTHENTICATION_PIPELINE_PHASE =
+    "AddingAuthToMDCAfterAuthenticationPipelinePhase"
+
 class AuthenticationMdcFillerPlugin {
 
     companion object Plugin :
         BaseApplicationPlugin<ApplicationCallPipeline, Configuration, AuthenticationMdcFillerPlugin> {
-        private val MdcAuthAddingPhase = PipelinePhase("AddingAuthToMDCAfterAuthenticationPipelinePhase")
-        override val key = AttributeKey<AuthenticationMdcFillerPlugin>("AuthenticationMdcFillerPlugin")
+        private val MdcAuthAddingPhase = PipelinePhase(ADDING_AUTH_TO_MDC_AFTER_AUTHENTICATION_PIPELINE_PHASE)
+        override val key = AttributeKey<AuthenticationMdcFillerPlugin>(AUTHENTICATION_MDC_FILLER_PLUGIN)
         override fun install(
             pipeline: ApplicationCallPipeline,
             configure: Configuration.() -> Unit

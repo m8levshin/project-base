@@ -3,6 +3,7 @@ const val kotlin_version = "1.7.21"
 const val logback_version = "1.2.11"
 const val koin_version = "3.2.2"
 const val hibernate_validator_version = "8.0.0.Final"
+const val open_telemtry_version = "1.20.1";
 
 object KtorDeps {
 
@@ -49,6 +50,6 @@ object KtorDeps {
     const val ktorSerialization = "io.ktor:ktor-serialization-jackson:$ktor_version"
     const val jacksonDataBind = "com.fasterxml.jackson.core:jackson-databind:2.14.0"
 
-    const val commonLang = "org.apache.commons:commons-lang3:3.12.0";
+
 
 }

@@ -12,4 +12,10 @@ dependencies {
 
     implementation(KtorDeps.kotlinCoroutinesSlf4j)
     implementation(KtorDeps.consulApi)
+
+    compileOnly(CommonDeps.openTelemetryApi)
+    compileOnly(CommonDeps.openTelemetrySdk)
+    compileOnly(CommonDeps.openTelemetryExtenionKotlin)
+    compileOnly(CommonDeps.openTelemetryExporterLogging)
+
 }

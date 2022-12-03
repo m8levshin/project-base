@@ -51,7 +51,15 @@ dependencies {
     implementation(KtorDeps.ktorSerialization)
     implementation(KtorDeps.jacksonDataBind)
 
-    implementation(KtorDeps.commonLang)
+
+    //OpenTelemetry
+    implementation(CommonDeps.openTelemetryApi)
+    implementation(CommonDeps.openTelemetrySdk)
+    implementation(CommonDeps.openTelemetryExtenionKotlin)
+    implementation(CommonDeps.openTelemetryExporterLogging)
+
+
+    implementation(CommonDeps.commonLang)
 
 }
 

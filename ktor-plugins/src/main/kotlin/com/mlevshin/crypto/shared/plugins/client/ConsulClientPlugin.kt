@@ -8,6 +8,8 @@ import io.ktor.client.plugins.*
 import io.ktor.client.request.*
 import io.ktor.util.*
 
+private const val CONSUL_PLUGIN = "ConsulPlugin"
+
 class ConsulClientPlugin(var consulClient: ConsulClient) {
 
     class Config {
@@ -18,7 +20,7 @@ class ConsulClientPlugin(var consulClient: ConsulClient) {
     companion object Feature : HttpClientPlugin<Config, ConsulClientPlugin> {
         private var currentNodeIndex: Int = 0
 
-        override val key = AttributeKey<ConsulClientPlugin>("ConsulPlugin")
+        override val key = AttributeKey<ConsulClientPlugin>(CONSUL_PLUGIN)
 
         override fun prepare(block: Config.() -> Unit): ConsulClientPlugin = Config().apply(block).build()
 

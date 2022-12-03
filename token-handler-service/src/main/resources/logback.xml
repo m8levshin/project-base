@@ -2,7 +2,7 @@
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{YYYY-MM-dd HH:mm:ss.SSS} [%-40thread] %-30X{authId} %-20X{requestId} %-5level %logger{36} - %msg%n</pattern>
+            <pattern>%d{YYYY-MM-dd HH:mm:ss.SSS} [%-40thread] %-30X{authId} %-20X{traceId} %-20X{spanId} %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 

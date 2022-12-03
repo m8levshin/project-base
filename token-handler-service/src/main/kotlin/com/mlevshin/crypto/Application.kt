@@ -3,6 +3,7 @@ package com.mlevshin.crypto
 
 import com.mlevshin.crypto.config.configureErrorHandling
 import com.mlevshin.crypto.config.configureKoinComponents
+import com.mlevshin.crypto.config.configureOpenTelemetryTracing
 import com.mlevshin.crypto.config.configureRequestLogging
 import com.mlevshin.crypto.config.configureRouting
 import com.mlevshin.crypto.config.configureSecurity
@@ -19,7 +20,7 @@ fun Application.personServiceModule() {
         slf4jLogger()
         modules(configureKoinComponents())
     }
-
+    configureOpenTelemetryTracing()
     configureSerialization()
     configureRouting()
     configureSecurity()
