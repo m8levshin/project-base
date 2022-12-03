@@ -5,16 +5,20 @@ import com.mlevshin.crypto.service.AccessTokenService
 import com.mlevshin.crypto.service.RefreshTokenService
 import com.mlevshin.crypto.service.impl.AccessTokenServiceImpl
 import com.mlevshin.crypto.service.impl.RefreshTokenServiceImpl
-import com.mlevshin.crypto.shared.plugins.OpenTelemetryUtils
+import com.mlevshin.crypto.shared.plugins.KtorTextMapGetter
+import com.mlevshin.crypto.shared.plugins.KtorTextMapSetter
 import com.mlevshin.crypto.shared.plugins.client.OpenTelemetryClientPlugin
 import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.request.*
 import io.ktor.serialization.jackson.*
 import io.ktor.server.application.*
 import io.opentelemetry.api.OpenTelemetry
 import io.opentelemetry.api.trace.Tracer
 import io.opentelemetry.api.trace.propagation.W3CTraceContextPropagator
 import io.opentelemetry.context.propagation.ContextPropagators
+import io.opentelemetry.context.propagation.TextMapGetter
+import io.opentelemetry.context.propagation.TextMapSetter
 import io.opentelemetry.exporter.logging.LoggingSpanExporter
 import io.opentelemetry.sdk.OpenTelemetrySdk
 import io.opentelemetry.sdk.trace.SdkTracerProvider
@@ -31,9 +35,13 @@ fun Application.configureKoinComponents(): Module {
         single<OAuthConfig> { buildOAuthConfig() }
         single<RefreshTokenService> { buildRefreshTokenServiceImpl(get(), get()) }
         single<AccessTokenService> { buildAccessTokenServiceImpl(get(), get()) }
+
+        single<TextMapSetter<HttpRequestBuilder>> { KtorTextMapSetter }
+        single<TextMapGetter<ApplicationCall>> { KtorTextMapGetter }
         single<OpenTelemetry> { initOpenTelemetry() }
         single<Tracer> { initTracerApi(get()) }
-        single<HttpClient> { buildCommonHttpClient(get()) }
+
+        single<HttpClient> { buildCommonHttpClient(get(), get()) }
     }
 }
 
@@ -54,7 +62,10 @@ private fun initTracerApi(openTelemetry: OpenTelemetry) =
     openTelemetry.getTracer("com.mlevshin.project-base.token-handler-service")
 
 
-private fun buildCommonHttpClient(openTelemetry: OpenTelemetry): HttpClient {
+private fun buildCommonHttpClient(
+    openTelemetryParam: OpenTelemetry,
+    textMapSetterParam: TextMapSetter<HttpRequestBuilder>
+): HttpClient {
     return HttpClient() {
         install(ContentNegotiation) {
             jackson() {
@@ -62,8 +73,8 @@ private fun buildCommonHttpClient(openTelemetry: OpenTelemetry): HttpClient {
             }
         }
         install(OpenTelemetryClientPlugin) {
-            telemetry = openTelemetry
-            textMapSetter = OpenTelemetryUtils.httpHeaderTextMapSetter
+            telemetry = openTelemetryParam
+            textMapSetter = textMapSetterParam
         }
 
     }
