@@ -21,7 +21,11 @@ object Dependecies {
         const val jakartaEl = "org.glassfish:jakarta.el:4.0.2"
         const val consulApi = "com.ecwid.consul:consul-api:1.4.5"
         const val apacheCommonLang = "org.apache.commons:commons-lang3:3.12.0";
-        const val logbackClassic = "ch.qos.logback:logback-classic:${Versions.logback}"
+
+        object Logging {
+            const val logbackClassic = "ch.qos.logback:logback-classic:${Versions.logback}"
+            const val logbackJsonClassic = "ch.qos.logback.contrib:logback-json-classic:0.1.5"
+        }
 
         object OpenTelemtry {
             private const val openTelemetryVersoin = Versions.openTelemetry

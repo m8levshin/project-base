@@ -5,4 +5,5 @@ object Versions {
     const val koin = "3.2.2"
     const val hibernateValidator= "8.0.0.Final"
     const val openTelemetry = "1.20.1";
+    const val springBoot = "3.0.0";
 }
