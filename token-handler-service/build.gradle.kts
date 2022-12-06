@@ -6,6 +6,7 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":ktor-libs:service"))
     implementation(project(":ktor-libs:plugins"))
     implementation(project(":ktor-libs:error"))
     implementation(project(":ktor-libs:config"))

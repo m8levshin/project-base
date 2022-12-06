@@ -1,5 +1,6 @@
 // ktor libs
 arrayOf(
+    "service",
     "error",
     "plugins",
     "config"

@@ -15,7 +15,8 @@ import java.util.stream.Collectors
 lateinit var objectMapper: ObjectMapper
 lateinit var sourceList: List<URL>
 lateinit var jacksonNodeEnvVariableProcessor: JacksonNodeProcessor
-fun Application.initConfiguration(env: String? = null, configure: Module.() -> Unit = {}) = module {
+
+fun Application.buildConfigurationModule(env: String? = null, configure: Module.() -> Unit = {}) = module {
     jacksonNodeEnvVariableProcessor = JacksonNodeEnvVariableProcessor()
     registerYamlObjectMapper()
     sourceList = Application::class.java.getResource("/application.yml")?.let { mutableListOf(it) } ?: emptyList()
