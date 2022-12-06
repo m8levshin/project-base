@@ -7,6 +7,7 @@ import com.mlevshin.base.config.configureOpenTelemetryTracing
 import com.mlevshin.base.config.configureRequestLogging
 import com.mlevshin.base.config.configureSerialization
 import com.mlevshin.base.service.config.buildHttpClientModule
+import com.mlevshin.base.service.logging.ServiceJsonLayout
 import io.ktor.server.application.*
 import org.koin.core.module.Module
 import org.koin.ktor.plugin.Koin
@@ -19,6 +20,7 @@ fun Application.setup(
     serviceModules: List<Module>,
     initConfiguration: Module.() -> Unit = {}
 ) {
+    ServiceJsonLayout.serviceName = serviceName
     install(Koin) {
         val configurationModule = buildConfigurationModule(environment) {
             initConfiguration()

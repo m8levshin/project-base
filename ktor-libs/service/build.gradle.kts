@@ -10,6 +10,8 @@ dependencies {
 
     api(Dependecies.Common.Logging.logbackClassic)
     api(Dependecies.Common.Logging.logbackJsonClassic)
+    api(Dependecies.Common.Logging.logbackJsonJackson)
+
 
     api(project(":ktor-libs:error"))
     api(project(":ktor-libs:plugins"))

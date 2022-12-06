@@ -25,6 +25,7 @@ object Dependecies {
         object Logging {
             const val logbackClassic = "ch.qos.logback:logback-classic:${Versions.logback}"
             const val logbackJsonClassic = "ch.qos.logback.contrib:logback-json-classic:0.1.5"
+            const val logbackJsonJackson = "ch.qos.logback.contrib:logback-jackson:0.1.5"
         }
 
         object OpenTelemtry {
