@@ -1,2 +1,16 @@
-rootProject.name = "project-base"
-include("ktor-shared", "ktor-plugins", "authorization-service", "token-handler-service")
+// ktor libs
+arrayOf(
+    "error",
+    "plugins",
+    "config"
+).forEach {
+    include("ktor-libs:$it")
+}
+
+// services
+arrayOf(
+    "authorization-service",
+    "token-handler-service"
+).forEach {
+    include(it)
+}

@@ -1,0 +1,12 @@
+security:
+  session:
+    encryptionKey: "108a1d89d9ccd997b706040a1818cf70"
+    signKey: "a811d5b15efbeb5b050d9afd30143b29"
+  oauth2:
+    issuer: "http://localhost:8090/realms/crypto"
+    authorizeUrl: "http://localhost:9000/oauth2/authorize"
+    accessTokenUrl: "http://localhost:9000/oauth2/token"
+    callbackUrl: "http://127.0.0.1:8080/api/oauth/callback"
+    clientId: "cryptoapp-ui"
+    clientSecret: "secret"
+    defaultScopes: "offline_access openid email profile ui_access"
