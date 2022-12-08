@@ -16,11 +16,17 @@ object Dependecies {
 
     object Common {
         const val hibernateValidator = "org.hibernate.validator:hibernate-validator:${Versions.hibernateValidator}"
-        const val jacksonDataBind = "com.fasterxml.jackson.core:jackson-databind:2.14.0"
         const val javaxElApi = "javax.el:javax.el-api:3.0.0"
         const val jakartaEl = "org.glassfish:jakarta.el:4.0.2"
         const val consulApi = "com.ecwid.consul:consul-api:1.4.5"
         const val apacheCommonLang = "org.apache.commons:commons-lang3:3.12.0";
+
+        object Jackson {
+            private const val jacksonVersion = Versions.jackson
+            const val moduleKotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:${jacksonVersion}"
+            const val dataFormatYaml = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jacksonVersion}"
+            const val dataBind = "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+        }
 
         object Logging {
             const val logbackClassic = "ch.qos.logback:logback-classic:${Versions.logback}"
@@ -32,16 +38,22 @@ object Dependecies {
             private const val openTelemetryVersoin = Versions.openTelemetry
             const val openTelemetryApi = "io.opentelemetry:opentelemetry-api:$openTelemetryVersoin"
             const val openTelemetrySdk = "io.opentelemetry:opentelemetry-sdk:$openTelemetryVersoin"
-            const val openTelemetryExporterLogging = "io.opentelemetry:opentelemetry-exporter-logging:$openTelemetryVersoin"
-            const val openTelemetryExtenionKotlin = "io.opentelemetry:opentelemetry-extension-kotlin:$openTelemetryVersoin"
+            const val openTelemetryExporterLogging =
+                "io.opentelemetry:opentelemetry-exporter-logging:$openTelemetryVersoin"
+            const val openTelemetryExtenionKotlin =
+                "io.opentelemetry:opentelemetry-extension-kotlin:$openTelemetryVersoin"
+            const val openTelemetryExporterOtlp = "io.opentelemetry:opentelemetry-exporter-otlp:$openTelemetryVersoin"
+            const val openTelemetrySemconv = "io.opentelemetry:opentelemetry-semconv:${Versions.openTelemetry}-alpha"
         }
     }
 
     object Spring {
         const val authServer = "org.springframework.security:spring-security-oauth2-authorization-server:1.0.0"
     }
+
     object Ktor {
         private const val ktorVersion = Versions.ktor
+
         object Server {
             const val server = "io.ktor:ktor-server-core-jvm:$ktorVersion"
             const val netty = "io.ktor:ktor-server-netty-jvm:$ktorVersion"

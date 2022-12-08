@@ -13,7 +13,6 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 fun Application.tokenHandlerService() {
     setup(
-        "token-handler-service",
         "test",
         listOf(
             tokenHandlerServiceModule()

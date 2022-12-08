@@ -15,6 +15,7 @@ import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.sessions.*
+import io.opentelemetry.api.trace.Tracer
 import org.koin.ktor.ext.inject
 
 
@@ -24,10 +25,14 @@ fun Route.configureTokenHandlerRouting() {
 
     val refreshTokenService: RefreshTokenService by inject()
     val accessTokenService: AccessTokenService by inject()
+    val tracer: Tracer by inject()
 
     get("/api/auth") {
         val session = call.sessions.get<TokenHandlerSession>()
         val refreshToken = session?.refreshToken
+
+        logger().warn("Просто варнинг")
+
         if (refreshToken == null) {
             val successLoginRedirectUrl = call.request.queryParameters[REDIRECT_QUERY_PARAM]
             val codeVerifier = CodeChallengeUtils.getCodeVerifierString()

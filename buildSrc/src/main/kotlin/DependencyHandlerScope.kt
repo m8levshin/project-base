@@ -34,4 +34,6 @@ val DependencyHandlerScope.openTelemetryDependecies get() = setOf(
     Dependecies.Common.OpenTelemtry.openTelemetrySdk,
     Dependecies.Common.OpenTelemtry.openTelemetryExporterLogging,
     Dependecies.Common.OpenTelemtry.openTelemetryExtenionKotlin,
+    Dependecies.Common.OpenTelemtry.openTelemetryExporterOtlp,
+    Dependecies.Common.OpenTelemtry.openTelemetrySemconv,
 )

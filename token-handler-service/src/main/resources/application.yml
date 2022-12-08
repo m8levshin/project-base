@@ -1,3 +1,8 @@
+service:
+  name: token-handler-service
+  tracing:
+    otelEndpoint: http://otel-collector:4317
+
 security:
   session:
     encryptionKey: "108a1d89d9ccd997b706040a1818cf70"

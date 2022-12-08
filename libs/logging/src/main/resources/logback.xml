@@ -2,11 +2,10 @@
 
     <appender name="jsonConsole" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
-            <layout class="com.mlevshin.base.service.logging.ServiceJsonLayout">
+            <layout class="com.mlevshin.projectbase.commonlibs.logging.ServiceJsonLayout">
                 <timestampFormat>yyyy-MM-dd' 'HH:mm:ss.SSS</timestampFormat>
                 <appendLineSeparator>true</appendLineSeparator>
-                <jsonFormatter
-                        class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
+                <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
                     <prettyPrint>false</prettyPrint>
                 </jsonFormatter>
             </layout>

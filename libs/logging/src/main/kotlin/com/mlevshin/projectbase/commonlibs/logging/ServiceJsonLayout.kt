@@ -1,4 +1,4 @@
-package com.mlevshin.base.service.logging
+package com.mlevshin.projectbase.commonlibs.logging
 
 import ch.qos.logback.classic.spi.ILoggingEvent
 import ch.qos.logback.contrib.json.classic.JsonLayout
