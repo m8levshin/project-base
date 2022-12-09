@@ -47,18 +47,17 @@ class OpenTelemetryServerPlugin(
     companion object Feature : BaseApplicationPlugin<ApplicationCallPipeline, Config, OpenTelemetryServerPlugin> {
 
         override val key = AttributeKey<OpenTelemetryServerPlugin>(OPEN_TELEMETRY_SERVER_PLUGIN)
-        override fun install(
-            pipeline: ApplicationCallPipeline,
-            configure: Config.() -> Unit
-        ): OpenTelemetryServerPlugin {
+        override fun install(pipeline: ApplicationCallPipeline,
+                             configure: Config.() -> Unit): OpenTelemetryServerPlugin {
+
             val plugin = Config().apply(configure).build()
+
             with(plugin) {
                 pipeline.intercept(ApplicationCallPipeline.Monitoring) {
-                    val textMapPropagator = plugin.telemetry.propagators.textMapPropagator
+                    val textMapPropagator = telemetry.propagators.textMapPropagator
                     val coroutineOtelContext = currentCoroutineContext().getOpenTelemetryContext()
                     val parentContext =
-                        textMapPropagator.extract(coroutineOtelContext, call, plugin.textMapGetter)
-                            ?: coroutineOtelContext
+                        textMapPropagator.extract(coroutineOtelContext, call, textMapGetter) ?: coroutineOtelContext
 
                     val span = createNewSpan(tracer, call, parentContext)
 
@@ -71,15 +70,14 @@ class OpenTelemetryServerPlugin(
                         span.end()
                     }
                 }
-                return plugin
             }
+            return plugin
         }
-
     }
 
     private fun createNewSpan(tracer: Tracer, call: ApplicationCall, parentContext: Context) =
         tracer
-            .spanBuilder(call.request.uri)
+            .spanBuilder("${call.request.httpMethod.value} ${call.request.uri}")
             .setParent(parentContext)
             .setAttribute(SemanticAttributes.HTTP_METHOD, call.request.httpMethod.value)
             .setAttribute(stringKey(HTTP_PATH_ATTRIBUTE_KEY), call.request.uri)

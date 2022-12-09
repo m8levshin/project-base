@@ -20,7 +20,7 @@ fun main(args: Array<String>) {
 
 @RestController
 class TestRestController {
-    @GetMapping
+    @GetMapping("/test")
     suspend fun root() : Flow<String> {
         LoggerFactory.getLogger(this.javaClass).info("asdfsafasf")
         return listOf("mene", "mene", "tekel", "upharsin").asFlow()

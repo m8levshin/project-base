@@ -11,6 +11,9 @@ import com.mlevshin.base.utils.CodeChallengeUtils
 import com.mlevshin.base.utils.OAuthConstants.Companion.AUTH_CODE_PARAM_NAME
 import com.mlevshin.base.utils.logger
 import com.mlevshin.base.utils.toCodeChallenge
+import io.ktor.client.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -26,12 +29,20 @@ fun Route.configureTokenHandlerRouting() {
     val refreshTokenService: RefreshTokenService by inject()
     val accessTokenService: AccessTokenService by inject()
     val tracer: Tracer by inject()
+    val httpClient: HttpClient by inject()
+
+
+    get("/test") {
+        val get = httpClient.get("http://spring-example-service:9090/test")
+        val response = get.bodyAsText()
+        logger().info(response)
+        logger().info(get.request.toString())
+        call.respond(response);
+    }
 
     get("/api/auth") {
         val session = call.sessions.get<TokenHandlerSession>()
         val refreshToken = session?.refreshToken
-
-        logger().warn("Просто варнинг")
 
         if (refreshToken == null) {
             val successLoginRedirectUrl = call.request.queryParameters[REDIRECT_QUERY_PARAM]
