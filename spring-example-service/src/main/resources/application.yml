@@ -5,6 +5,7 @@ spring:
   sleuth:
     otel:
       config:
+        custom-span-name: true
         trace-id-ratio-based: 1
       exporter:
         otlp:
@@ -13,4 +14,11 @@ spring:
       type: W3C
 
 server:
-  port: 9090
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - prometheus

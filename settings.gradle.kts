@@ -8,6 +8,13 @@ arrayOf(
     include("ktor-libs:$it")
 }
 
+// spring libs
+arrayOf(
+    "service"
+).forEach {
+    include("spring-libs:$it")
+}
+
 // common libs
 arrayOf(
     "logging",
@@ -23,5 +30,3 @@ arrayOf(
 ).forEach {
     include(it)
 }
-include("libs:logging")
-findProject(":libs:logging")?.name = "logging"

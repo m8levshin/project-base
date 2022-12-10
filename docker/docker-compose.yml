@@ -2,6 +2,12 @@ version: "3.9"
 
 services:
 
+  authorization-service:
+    build:
+      dockerfile: ../authorization-service/Dockerfile
+      context: ../authorization-service
+    ports:
+      - "8030:8080"
   token-handler-service:
     build:
       dockerfile: ../token-handler-service/Dockerfile

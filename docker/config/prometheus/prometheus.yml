@@ -1,6 +1,6 @@
 global:
-  scrape_interval: 5
-  evaluation_interval: 5s
+  scrape_interval: 2s
+  evaluation_interval: 2s
 
 scrape_configs:
   - job_name: grafana
@@ -27,10 +27,19 @@ scrape_configs:
     static_configs:
       - targets: ['vector:9160']
 
-  - job_name: token-handler-service
+  - job_name: ktor-services
     dns_sd_configs:
       - names:
           - token-handler-service
+        type: A
+        port: 8080
+
+  - job_name: spring-boot-services
+    metrics_path: '/actuator/prometheus'
+    dns_sd_configs:
+      - names:
+          - spring-example-service
+          - authorization-service
         type: A
         port: 8080
 

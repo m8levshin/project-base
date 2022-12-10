@@ -1,13 +1,10 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     id("org.springframework.boot") version "2.7.6"
-    id("io.spring.dependency-management") version "1.0.2.RELEASE"
+    id("io.spring.dependency-management") version SpringDependencyManagement.pluginVersion
     kotlin("jvm") version  Versions.kotlin
     kotlin("plugin.spring") version Versions.kotlin
 }
 
-version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 configurations {
@@ -20,16 +17,16 @@ repositories {
     mavenCentral()
 }
 
-
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2021.0.4")
-        mavenBom("org.springframework.cloud:spring-cloud-sleuth-otel-dependencies:1.1.0")
+        mavenBom(SpringDependencyManagement.springCloud)
+        mavenBom(SpringDependencyManagement.springCloudSleuthOtel)
     }
 }
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -40,22 +37,8 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
 
-    implementation("org.springframework.cloud:spring-cloud-starter-sleuth") {
-        exclude(group = "org.springframework.cloud", module = "spring-cloud-sleuth-brave")
-    }
-    implementation("org.springframework.cloud:spring-cloud-sleuth-otel-autoconfigure")
-    implementation("io.opentelemetry:opentelemetry-exporter-otlp")
+    implementation(Dependecies.Common.micrometerPrometheusRegistry)
 
+    implementation(project(":spring-libs:service"))
     implementation(project(":libs:logging"))
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "17"
-    }
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
 }
