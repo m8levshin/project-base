@@ -9,7 +9,7 @@ import com.mlevshin.base.config.configureRequestLogging
 import com.mlevshin.base.config.configureSerialization
 import com.mlevshin.base.service.config.ServiceConfig
 import com.mlevshin.base.service.config.buildHttpClientModule
-import com.mlevshin.projectbase.commonlibs.logging.ServiceJsonLayout
+import com.mlevshin.base.service.config.configureMetrics
 import io.ktor.server.application.*
 import org.koin.core.module.Module
 import org.koin.ktor.ext.inject
@@ -38,7 +38,7 @@ fun Application.setup(
         modules(serviceModules)
     }
     val serviceConfig : ServiceConfig by inject()
-    ServiceJsonLayout.serviceName = serviceConfig.name
+    configureMetrics()
     configureOpenTelemetryTracing()
     configureSerialization()
     configureRequestLogging()

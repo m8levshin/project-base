@@ -8,6 +8,7 @@ services:
       context: ../token-handler-service
     ports:
       - "8010:8080"
+
   spring-example-service:
     build:
       dockerfile: ../spring-example-service/Dockerfile
@@ -15,12 +16,12 @@ services:
     ports:
       - "8020:8080"
 
-
   jaeger:
     image: jaegertracing/all-in-one:latest
     ports:
       - "16686:16686"
       - "14250:14250"
+
   otel-collector:
     image: otel/opentelemetry-collector:latest
     command: [ "--config=/etc/otel-collector/otel-collector.yml" ]
@@ -41,12 +42,24 @@ services:
     volumes:
       - ./volumes/loki:/loki
 
-  promtail:
-    image: grafana/promtail:2.6.1
+  vector:
+    image: timberio/vector:0.23.3-alpine
+    restart: unless-stopped
+    ports: [ "8383:8383", "8686:8686", "9160:9160", "4545:4545/udp" ]
     volumes:
-      - ./config/promtail/promtail-config.yaml:/etc/promtail/config.yml
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /var/lib/docker/containers:/var/lib/docker/containers
+      - ./config/vector/vector.toml:/etc/vector/vector.toml
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./volumes/vector/logs:/logs
+    depends_on: [ loki, prometheus ]
+
+  prometheus:
+    image: prom/prometheus:v2.31.2
+    restart: unless-stopped
+    command: --config.file=/etc/prometheus/prometheus.yaml --web.route-prefix=/ --storage.tsdb.path=/prometheus --storage.tsdb.retention.time=30d --web.enable-lifecycle --web.enable-admin-api
+    ports: [ "3001:9090" ]
+    volumes:
+      - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yaml
+      - ./volumes/prometheus:/prometheus
 
   grafana:
     image: grafana/grafana:9.2.2

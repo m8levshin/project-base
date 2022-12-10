@@ -20,6 +20,8 @@ object Dependecies {
         const val jakartaEl = "org.glassfish:jakarta.el:4.0.2"
         const val consulApi = "com.ecwid.consul:consul-api:1.4.5"
         const val apacheCommonLang = "org.apache.commons:commons-lang3:3.12.0";
+        const val micrometerPrometheusRegistry =
+            "io.micrometer:micrometer-registry-prometheus:${Versions.prometheusVersion}"
 
         object Jackson {
             private const val jacksonVersion = Versions.jackson
@@ -64,6 +66,7 @@ object Dependecies {
             const val callLoggingPlugin = "io.ktor:ktor-server-call-logging:$ktorVersion"
             const val sessionPlugin = "io.ktor:ktor-server-sessions:$ktorVersion"
             const val callIdPlugin = "io.ktor:ktor-server-call-id:$ktorVersion"
+            const val micrometerPlugin = "io.ktor:ktor-server-metrics-micrometer:$ktorVersion"
         }
 
         object Client {

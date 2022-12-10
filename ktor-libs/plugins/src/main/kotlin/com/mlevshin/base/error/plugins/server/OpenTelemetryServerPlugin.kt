@@ -20,31 +20,35 @@ import kotlinx.coroutines.withContext
 import org.slf4j.MDC
 
 
-private const val OPEN_TELEMETRY_SERVER_PLUGIN = "OpenTelemetryServerPlugin"
-private const val DEFAULT_TRACE_ID_MDC_KEY_NAME = "traceId"
-private const val DEFAULT_SPAN_ID_MDC_KEY_NAME = "spanId"
-private const val ATTRIBUTE_SPAN_PREFIX = "_span"
-private const val HTTP_PATH_ATTRIBUTE_KEY = "http.path"
 
 class OpenTelemetryServerPlugin(
     private val telemetry: OpenTelemetry,
     private val tracer: Tracer,
     private val textMapGetter: TextMapGetter<ApplicationCall>,
-    private val traceIdMdcKeyName: String = DEFAULT_TRACE_ID_MDC_KEY_NAME,
-    private val spanIdMdcKeyName: String = DEFAULT_SPAN_ID_MDC_KEY_NAME
+    private var uriStartsWith: String,
+    private val traceIdMdcKeyName: String,
+    private val spanIdMdcKeyName: String,
 ) {
 
     class Config {
         lateinit var telemetry: OpenTelemetry
         lateinit var tracer: Tracer
         lateinit var textMapGetter: TextMapGetter<ApplicationCall>
+        var uriStartsWith: String = DEFAULT_SPAN_CAPTURE_URI_PREFIX
         var traceIdMdcKeyName: String = DEFAULT_TRACE_ID_MDC_KEY_NAME
         var spanIdMdcKeyName: String = DEFAULT_SPAN_ID_MDC_KEY_NAME
         fun build(): OpenTelemetryServerPlugin =
-            OpenTelemetryServerPlugin(telemetry, tracer, textMapGetter, traceIdMdcKeyName, spanIdMdcKeyName)
+            OpenTelemetryServerPlugin(telemetry, tracer, textMapGetter, uriStartsWith, traceIdMdcKeyName, spanIdMdcKeyName)
     }
 
     companion object Feature : BaseApplicationPlugin<ApplicationCallPipeline, Config, OpenTelemetryServerPlugin> {
+
+        private const val OPEN_TELEMETRY_SERVER_PLUGIN = "OpenTelemetryServerPlugin"
+        private const val DEFAULT_TRACE_ID_MDC_KEY_NAME = "traceId"
+        private const val DEFAULT_SPAN_ID_MDC_KEY_NAME = "spanId"
+        private const val ATTRIBUTE_SPAN_PREFIX = "_span"
+        private const val HTTP_PATH_ATTRIBUTE_KEY = "http.path"
+        private const val DEFAULT_SPAN_CAPTURE_URI_PREFIX = "/api"
 
         override val key = AttributeKey<OpenTelemetryServerPlugin>(OPEN_TELEMETRY_SERVER_PLUGIN)
         override fun install(pipeline: ApplicationCallPipeline,
@@ -54,21 +58,24 @@ class OpenTelemetryServerPlugin(
 
             with(plugin) {
                 pipeline.intercept(ApplicationCallPipeline.Monitoring) {
-                    val textMapPropagator = telemetry.propagators.textMapPropagator
-                    val coroutineOtelContext = currentCoroutineContext().getOpenTelemetryContext()
-                    val parentContext =
-                        textMapPropagator.extract(coroutineOtelContext, call, textMapGetter) ?: coroutineOtelContext
+                    if (call.request.uri.startsWith(uriStartsWith)) {
+                        val textMapPropagator = telemetry.propagators.textMapPropagator
+                        val coroutineOtelContext = currentCoroutineContext().getOpenTelemetryContext()
+                        val parentContext =
+                            textMapPropagator.extract(coroutineOtelContext, call, textMapGetter) ?: coroutineOtelContext
 
-                    val span = createNewSpan(tracer, call, parentContext)
+                        val span = createNewSpan(tracer, call, parentContext)
 
-                    withContext(currentCoroutineContext().plus(span.asContextElement())) {
-                        span.makeCurrent()
-                        putTraceInfoToMdc(span)
-                        putTracingAttributeToCall(call, span)
-                        proceed()
-                        setSpanStatus(span, call)
-                        span.end()
+                        withContext(currentCoroutineContext().plus(span.asContextElement())) {
+                            span.makeCurrent()
+                            putTraceInfoToMdc(span)
+                            putTracingAttributeToCall(call, span)
+                            proceed()
+                            setSpanStatus(span, call)
+                            span.end()
+                        }
                     }
+                    proceed()
                 }
             }
             return plugin

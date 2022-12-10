@@ -18,7 +18,6 @@ import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.sessions.*
-import io.opentelemetry.api.trace.Tracer
 import org.koin.ktor.ext.inject
 
 
@@ -28,15 +27,13 @@ fun Route.configureTokenHandlerRouting() {
 
     val refreshTokenService: RefreshTokenService by inject()
     val accessTokenService: AccessTokenService by inject()
-    val tracer: Tracer by inject()
     val httpClient: HttpClient by inject()
 
 
-    get("/test") {
-        val get = httpClient.get("http://spring-example-service:9090/test")
+    get("/api/test") {
+        val get = httpClient.get("http://spring-example-service:9090/api/test")
         val response = get.bodyAsText()
         logger().info(response)
-        logger().info(get.request.toString())
         call.respond(response);
     }
 

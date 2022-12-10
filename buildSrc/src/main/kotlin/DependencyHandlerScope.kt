@@ -4,7 +4,6 @@ val DependencyHandlerScope.ktorServerDependecies
     get() = setOf(
         Dependecies.Ktor.Server.server,
         Dependecies.Ktor.Server.contentNegotiation,
-
         Dependecies.Ktor.Server.callIdPlugin,
         Dependecies.Ktor.Server.hostCommon,
         Dependecies.Ktor.Server.netty,
@@ -12,6 +11,7 @@ val DependencyHandlerScope.ktorServerDependecies
         Dependecies.Ktor.Server.callLoggingPlugin,
         Dependecies.Ktor.Server.statusPage,
         Dependecies.Ktor.Server.sessionPlugin,
+        Dependecies.Ktor.Server.micrometerPlugin,
     )
 
 val DependencyHandlerScope.ktorClientDependecies

@@ -98,7 +98,7 @@ class AuthorizationServerConfig {
     fun jwkSource(): JWKSource<SecurityContext> {
         val rsaKey = Jwks.generateRsa()
         val jwkSet = JWKSet(rsaKey)
-        return JWKSource { jwkSelector: JWKSelector, securityContext: SecurityContext? ->
+        return JWKSource { jwkSelector: JWKSelector, _: SecurityContext? ->
             jwkSelector.select(
                 jwkSet
             )

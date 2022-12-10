@@ -1,0 +1,36 @@
+global:
+  scrape_interval: 5
+  evaluation_interval: 5s
+
+scrape_configs:
+  - job_name: grafana
+    static_configs:
+      - targets: ['grafana:3000']
+
+  - job_name: jaeger
+    static_configs:
+      - targets: ['jaeger:14269']
+
+  - job_name: loki
+    static_configs:
+      - targets: ['loki:3100']
+
+  - job_name: opentelemetry-collector
+    static_configs:
+      - targets: ['otel-collector:8888']
+
+  - job_name: prometheus
+    static_configs:
+      - targets: ['prometheus:9090']
+
+  - job_name: vector
+    static_configs:
+      - targets: ['vector:9160']
+
+  - job_name: token-handler-service
+    dns_sd_configs:
+      - names:
+          - token-handler-service
+        type: A
+        port: 8080
+
