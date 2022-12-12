@@ -7,13 +7,18 @@ services:
       dockerfile: ../authorization-service/Dockerfile
       context: ../authorization-service
     ports:
-      - "8030:8080"
+      - "9000:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
   token-handler-service:
     build:
       dockerfile: ../token-handler-service/Dockerfile
       context: ../token-handler-service
     ports:
-      - "8010:8080"
+      - "9010:8080"
+    environment:
+      KTOR_PROFILES_ACTIVE: docker
 
   spring-example-service:
     build:
@@ -21,6 +26,18 @@ services:
       context: ../spring-example-service
     ports:
       - "8020:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
+  ktor-example-service:
+    build:
+      dockerfile: ../ktor-example-service/Dockerfile
+      context: ../ktor-example-service
+    ports:
+      - "8010:8080"
+    environment:
+      KTOR_PROFILES_ACTIVE: docker
+
 
   jaeger:
     image: jaegertracing/all-in-one:latest

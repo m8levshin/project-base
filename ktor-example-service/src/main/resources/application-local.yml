@@ -1,0 +1,10 @@
+service:
+  port: 8010
+
+security:
+  oauth2:
+    resource:
+      issuer: "http://127.0.0.1:9000"
+      audience: test
+      realm: test
+      jwkSetUrl: "http://127.0.0.1:9000/oauth2/jwks"

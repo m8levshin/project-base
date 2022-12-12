@@ -3,7 +3,8 @@ arrayOf(
     "service",
     "error",
     "plugins",
-    "config"
+    "config",
+    "oauth2-resource"
 ).forEach {
     include("ktor-libs:$it")
 }
@@ -26,7 +27,8 @@ arrayOf(
 arrayOf(
     "authorization-service",
     "spring-example-service",
-    "token-handler-service"
+    "token-handler-service",
+    "ktor-example-service"
 ).forEach {
     include(it)
 }

@@ -1,6 +1,8 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id("org.springframework.boot") version Versions.springBoot
-    id("io.spring.dependency-management") version SpringDependencyManagement.pluginVersion
+    id("io.spring.dependency-management") version "1.1.0"
     kotlin("jvm") version Versions.kotlin
     kotlin("plugin.spring") version Versions.kotlin
 }
@@ -23,7 +25,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    runtimeOnly ("com.h2database:h2")
+    runtimeOnly("com.h2database:h2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
     implementation(Dependecies.Spring.authServer)
@@ -31,4 +33,11 @@ dependencies {
 
     implementation(project(":spring-libs:service"))
     implementation(project(":libs:logging"))
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        freeCompilerArgs = listOf("-Xjsr305=strict")
+        jvmTarget = "17"
+    }
 }

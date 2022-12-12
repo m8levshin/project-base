@@ -56,20 +56,26 @@ class AuthorizationServerConfig {
     }
 
     @Bean
-    fun registeredClientRepository(jdbcTemplate: JdbcTemplate?): RegisteredClientRepository {
-        val registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
-            .clientId("cryptoapp-ui")
-            .clientSecret("{noop}secret")
+    fun registeredClientRepository(
+        jdbcTemplate: JdbcTemplate?,
+        appClientProperties: AppOAuth2ClientProperties
+    ): RegisteredClientRepository {
+        val clientBuilder = RegisteredClient.withId(UUID.randomUUID().toString())
+            .clientId(appClientProperties.clientId)
+            .clientSecret("{noop}${appClientProperties.clientSecret}")
             .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
             .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
             .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-            .redirectUri("http://127.0.0.1:8080/api/oauth/callback")
+            .redirectUri(appClientProperties.callbackUrl)
             .scope(OidcScopes.OPENID)
             .scope(OidcScopes.PROFILE)
             .scope(OidcScopes.EMAIL)
-            .scope("offline_access")
-            .scope("ui_access")
+
             .clientSettings(ClientSettings.builder().requireAuthorizationConsent(false).requireProofKey(true).build())
+
+        appClientProperties.scopes.forEach(clientBuilder::scope)
+
+        val registeredClient = clientBuilder
             .build()
 
         // Save registered client in db as if in-memory

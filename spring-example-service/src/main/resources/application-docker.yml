@@ -1,0 +1,29 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: spring-test-service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://127.0.0.1:9000/oauth2/jwks
+
+  sleuth:
+    otel:
+      config:
+        custom-span-name: true
+        trace-id-ratio-based: 1
+      exporter:
+        otlp:
+          endpoint: http://otel-collector:4317
+    propagation:
+      type: W3C
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - prometheus

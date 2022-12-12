@@ -22,6 +22,7 @@ object Dependecies {
         const val apacheCommonLang = "org.apache.commons:commons-lang3:3.12.0";
         const val micrometerPrometheusRegistry =
             "io.micrometer:micrometer-registry-prometheus:${Versions.prometheusVersion}"
+        const val auth0JwksRsa = "com.auth0:jwks-rsa:0.21.2"
 
         object Jackson {
             private const val jacksonVersion = Versions.jackson
@@ -67,6 +68,8 @@ object Dependecies {
             const val sessionPlugin = "io.ktor:ktor-server-sessions:$ktorVersion"
             const val callIdPlugin = "io.ktor:ktor-server-call-id:$ktorVersion"
             const val micrometerPlugin = "io.ktor:ktor-server-metrics-micrometer:$ktorVersion"
+            const val authPlugin = "io.ktor:ktor-server-auth:$ktorVersion"
+            const val jwtAuthPlugin = "io.ktor:ktor-server-auth-jwt:$ktorVersion"
         }
 
         object Client {

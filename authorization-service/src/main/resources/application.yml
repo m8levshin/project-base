@@ -4,25 +4,3 @@ server:
 spring:
   application:
     name: authorization-service
-
-  sleuth:
-    otel:
-      config:
-        custom-span-name: true
-        trace-id-ratio-based: 1
-      exporter:
-        otlp:
-          endpoint: http://otel-collector:4317
-    propagation:
-      type: W3C
-
-logging:
-  level:
-    root: INFO
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include:
-          - prometheus

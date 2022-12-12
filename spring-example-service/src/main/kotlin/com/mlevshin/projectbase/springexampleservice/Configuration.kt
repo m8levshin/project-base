@@ -1,21 +1,22 @@
 package com.mlevshin.projectbase.springexampleservice
 
-import io.opentelemetry.instrumentation.api.instrumenter.http.HttpServerAttributesGetter
-import org.springframework.cloud.sleuth.http.HttpServerRequest
-import org.springframework.cloud.sleuth.http.HttpServerResponse
-import org.springframework.cloud.sleuth.otel.bridge.SpringHttpServerAttributesGetter
-import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
+import org.springframework.security.config.web.server.ServerHttpSecurity
+import org.springframework.security.web.server.SecurityWebFilterChain
 
 @Configuration
+@EnableWebFluxSecurity
 class Configuration {
-    @Bean
-    fun otelHttpServerAttributesGetter(): HttpServerAttributesGetter<HttpServerRequest?, HttpServerResponse?>? {
-        return object : SpringHttpServerAttributesGetter() {
-            override fun route(httpServerRequest: HttpServerRequest?) =
-                 "${httpServerRequest?.method()?.uppercase()} ${httpServerRequest?.path()}"
 
-        }
+    fun  springSecurityFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
+        http
+            .authorizeExchange()
+            .pathMatchers("/api/**").hasAuthority("SCOPE_ui_access")
+            .anyExchange().authenticated()
+            .and()
+            .oauth2ResourceServer().jwt();
+        return http.build();
     }
 
 }

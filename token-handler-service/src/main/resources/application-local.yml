@@ -1,0 +1,14 @@
+service:
+  port: 9010
+
+security:
+  session:
+    encryptionKey: "108a1d89d9ccd997b706040a1818cf70"
+    signKey: "a811d5b15efbeb5b050d9afd30143b29"
+  oauth2:
+    authorizeUrl: "http://127.0.0.1:9000/oauth2/authorize"
+    accessTokenUrl: "http://127.0.0.1:9000/oauth2/token"
+    callbackUrl: "http://127.0.0.1:9010/api/oauth/callback"
+    clientId: "testApp"
+    clientSecret: "testApp"
+    defaultScopes: "offline_access openid email profile ui_access"

@@ -13,6 +13,7 @@ dependencies {
     api(project(":ktor-libs:error"))
     api(project(":ktor-libs:plugins"))
     api(project(":ktor-libs:config"))
+    api(project(":ktor-libs:oauth2-resource"))
 
     api(Dependecies.Common.micrometerPrometheusRegistry)
 

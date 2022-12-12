@@ -1,0 +1,13 @@
+app:
+  security:
+    oauth2:
+      client:
+        clientId: testApp
+        clientSecret: testApp
+        callbackUrl: http://127.0.0.1:9010/api/oauth/callback
+        scopes:
+          - offline_access
+          - ui_access
+
+server:
+  port: 9000
