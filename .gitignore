@@ -39,4 +39,4 @@ out/
 .vscode/
 
 ### Docker ###
-docker/volumes/
+deployment/docker-compose/volumes/

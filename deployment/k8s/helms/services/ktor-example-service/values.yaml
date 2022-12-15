@@ -1,0 +1,3 @@
+global:
+  hostname: local.mlevsh.in
+  profile: k8s-test

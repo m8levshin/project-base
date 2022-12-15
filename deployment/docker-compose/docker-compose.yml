@@ -4,8 +4,8 @@ services:
 
   authorization-service:
     build:
-      dockerfile: ../authorization-service/Dockerfile
-      context: ../authorization-service
+      dockerfile: ../../authorization-service/Dockerfile
+      context: ../../authorization-service
     ports:
       - "9000:8080"
     environment:
@@ -13,8 +13,8 @@ services:
 
   token-handler-service:
     build:
-      dockerfile: ../token-handler-service/Dockerfile
-      context: ../token-handler-service
+      dockerfile: ../../token-handler-service/Dockerfile
+      context: ../../token-handler-service
     ports:
       - "9010:8080"
     environment:
@@ -22,8 +22,8 @@ services:
 
   spring-example-service:
     build:
-      dockerfile: ../spring-example-service/Dockerfile
-      context: ../spring-example-service
+      dockerfile: ../../spring-example-service/Dockerfile
+      context: ../../spring-example-service
     ports:
       - "8020:8080"
     environment:
@@ -31,8 +31,8 @@ services:
 
   ktor-example-service:
     build:
-      dockerfile: ../ktor-example-service/Dockerfile
-      context: ../ktor-example-service
+      dockerfile: ../../ktor-example-service/Dockerfile
+      context: ../../ktor-example-service
     ports:
       - "8010:8080"
     environment:

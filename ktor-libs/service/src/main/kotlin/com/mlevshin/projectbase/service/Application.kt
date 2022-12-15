@@ -11,10 +11,12 @@ import com.mlevshin.projectbase.security.oauth2.resource.JwkProviderProperties
 import com.mlevshin.projectbase.security.oauth2.resource.configureResourceServerSecurity
 import com.mlevshin.projectbase.service.config.ServiceProperties
 import com.mlevshin.projectbase.service.config.buildHttpClientModule
+import com.mlevshin.projectbase.service.config.buildJacksonObjectMapper
 import com.mlevshin.projectbase.service.config.configureMetrics
-import io.ktor.server.application.*
-import io.ktor.server.engine.*
-import io.ktor.server.netty.*
+import io.ktor.server.application.Application
+import io.ktor.server.application.install
+import io.ktor.server.engine.embeddedServer
+import io.ktor.server.netty.Netty
 import org.koin.core.module.Module
 import org.koin.ktor.plugin.Koin
 import org.koin.logger.slf4jLogger
@@ -56,13 +58,14 @@ fun Application.configureService(
         modules(propertiesKoinModuleInitializer.configurationModule)
         modules(buildOpenTelemetryModule(serviceProperties))
         modules(buildHttpClientModule())
+        modules(buildJacksonObjectMapper())
         modules(serviceModuleList)
     }
 
     configureMetrics()
     serviceProperties?.tracing?.let { configureOpenTelemetryTracing() }
-    configureSerialization()
     configureRequestLogging()
+    configureSerialization()
     configureErrorHandling()
     configureResourceServerSecurity()
     appKtorConfiguration()
