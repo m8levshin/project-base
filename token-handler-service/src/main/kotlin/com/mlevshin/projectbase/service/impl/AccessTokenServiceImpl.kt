@@ -7,11 +7,14 @@ import com.mlevshin.projectbase.error.AppError
 import com.mlevshin.projectbase.error.exception.AuthenticationException
 import com.mlevshin.projectbase.service.AccessTokenService
 import com.mlevshin.projectbase.utils.OAuthConstants
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.request.forms.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.forms.submitForm
+import io.ktor.client.statement.bodyAsText
+import io.ktor.http.HttpMethod
+import io.ktor.http.HttpStatusCode
+import io.ktor.http.Parameters
+import io.ktor.http.URLBuilder
 
 class AccessTokenServiceImpl(
     private val httpClient: HttpClient,

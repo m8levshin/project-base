@@ -11,10 +11,15 @@ import com.mlevshin.projectbase.service.RefreshTokenService
 import com.mlevshin.projectbase.utils.CodeChallengeUtils
 import com.mlevshin.projectbase.utils.OAuthConstants.Companion.AUTH_CODE_PARAM_NAME
 import com.mlevshin.projectbase.utils.toCodeChallenge
-import io.ktor.server.application.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
-import io.ktor.server.sessions.*
+import io.ktor.server.application.call
+import io.ktor.server.response.respond
+import io.ktor.server.response.respondRedirect
+import io.ktor.server.routing.Route
+import io.ktor.server.routing.get
+import io.ktor.server.sessions.clear
+import io.ktor.server.sessions.get
+import io.ktor.server.sessions.sessions
+import io.ktor.server.sessions.set
 import org.koin.ktor.ext.inject
 
 

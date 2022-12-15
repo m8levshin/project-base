@@ -1,8 +1,8 @@
 package com.mlevshin.projectbase.error.plugins
 
-import io.ktor.client.request.*
-import io.ktor.server.application.*
-import io.ktor.util.*
+import io.ktor.client.request.HttpRequestBuilder
+import io.ktor.server.application.ApplicationCall
+import io.ktor.util.toMap
 import io.opentelemetry.context.propagation.TextMapGetter
 import io.opentelemetry.context.propagation.TextMapSetter
 

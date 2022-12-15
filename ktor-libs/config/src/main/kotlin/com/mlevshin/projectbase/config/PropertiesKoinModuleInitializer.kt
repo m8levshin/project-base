@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.mlevshin.projectbase.commonlibs.logging.utils.logger
-import io.ktor.server.application.*
+import io.ktor.server.application.Application
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import java.net.URL

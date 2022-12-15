@@ -1,9 +1,15 @@
 package com.mlevshin.projectbase.error.plugins.server
 
-import io.ktor.http.*
-import io.ktor.server.application.*
-import io.ktor.server.request.*
-import io.ktor.util.*
+import io.ktor.http.isSuccess
+import io.ktor.server.application.ApplicationCall
+import io.ktor.server.application.ApplicationCallPipeline
+import io.ktor.server.application.BaseApplicationPlugin
+import io.ktor.server.application.call
+import io.ktor.server.request.host
+import io.ktor.server.request.httpMethod
+import io.ktor.server.request.uri
+import io.ktor.server.request.userAgent
+import io.ktor.util.AttributeKey
 import io.opentelemetry.api.OpenTelemetry
 import io.opentelemetry.api.common.AttributeKey.stringKey
 import io.opentelemetry.api.trace.Span
@@ -18,7 +24,6 @@ import io.opentelemetry.semconv.trace.attributes.SemanticAttributes
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.withContext
 import org.slf4j.MDC
-
 
 
 class OpenTelemetryServerPlugin(

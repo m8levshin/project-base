@@ -4,8 +4,10 @@ import com.mlevshin.projectbase.error.plugins.KtorTextMapGetter
 import com.mlevshin.projectbase.error.plugins.KtorTextMapSetter
 import com.mlevshin.projectbase.error.plugins.server.OpenTelemetryServerPlugin
 import com.mlevshin.projectbase.service.config.ServiceProperties
-import io.ktor.client.request.*
-import io.ktor.server.application.*
+import io.ktor.client.request.HttpRequestBuilder
+import io.ktor.server.application.Application
+import io.ktor.server.application.ApplicationCall
+import io.ktor.server.application.install
 import io.opentelemetry.api.OpenTelemetry
 import io.opentelemetry.api.common.Attributes
 import io.opentelemetry.api.trace.Tracer

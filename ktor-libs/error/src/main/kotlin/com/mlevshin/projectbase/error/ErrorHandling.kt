@@ -1,9 +1,10 @@
 package com.mlevshin.projectbase.error
 
 import com.mlevshin.projectbase.error.exception.ApplicationException
-import io.ktor.server.application.*
-import io.ktor.server.plugins.statuspages.*
-import io.ktor.server.response.*
+import io.ktor.server.application.Application
+import io.ktor.server.application.install
+import io.ktor.server.plugins.statuspages.StatusPages
+import io.ktor.server.response.respond
 
 fun Application.configureErrorHandling() {
     install(StatusPages) {

@@ -1,7 +1,7 @@
 package com.mlevshin.projectbase.error.exception
 
 import com.mlevshin.projectbase.error.AppError
-import io.ktor.http.*
+import io.ktor.http.HttpStatusCode
 
 
 class ValidationException() : ApplicationException(HttpStatusCode.BadRequest) {

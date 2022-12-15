@@ -5,7 +5,7 @@ import com.mlevshin.projectbase.service.AccessTokenService
 import com.mlevshin.projectbase.service.RefreshTokenService
 import com.mlevshin.projectbase.service.impl.AccessTokenServiceImpl
 import com.mlevshin.projectbase.service.impl.RefreshTokenServiceImpl
-import io.ktor.client.*
+import io.ktor.client.HttpClient
 import org.koin.dsl.module
 
 fun tokenHandlerServiceModule() = module {

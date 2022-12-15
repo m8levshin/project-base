@@ -1,6 +1,6 @@
 package com.mlevshin.projectbase.service
 
-import io.ktor.server.application.*
+import io.ktor.server.application.Application
 import org.koin.core.error.InstanceCreationException
 import org.koin.core.error.NoBeanDefFoundException
 import org.koin.core.parameter.ParametersDefinition
