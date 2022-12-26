@@ -35,6 +35,7 @@ fun Route.configureTokenHandlerRouting() {
         val refreshToken = session?.refreshToken
 
         if (refreshToken == null) {
+            //todo url checking
             val successLoginRedirectUrl = call.request.queryParameters[REDIRECT_QUERY_PARAM]
             val codeVerifier = CodeChallengeUtils.getCodeVerifierString()
             val codeChallenge = codeVerifier.toCodeChallenge()

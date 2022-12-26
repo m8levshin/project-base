@@ -15,6 +15,7 @@ fun Application.configureSecurity() {
     install(Sessions) {
         cookie<TokenHandlerSession>("session_key") {
             cookie.path = "/"
+            cookie.extensions["SameSite"] = "Strict"
             cookie.httpOnly = true
             transform(SessionTransportTransformerEncrypt(hex(sessionProperties.encryptionKey), hex(sessionProperties.signKey)))
         }
