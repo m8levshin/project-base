@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{.Chart.Name}}-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: 10k
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/backend-protocol: "https"
+    nginx.ingress.kubernetes.io/rewrite-target: "/"
+
+spec:
+  tls:
+    - hosts:
+        - {{.Values.hostname}}
+      secretName: {{.Values.tsl.secretName}}
+  rules:
+    - host: {{.Values.hostname}}
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: {{ include "keycloak.service-name" .}}
+                port:
+                  number: 443

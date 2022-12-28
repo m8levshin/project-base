@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Release.Name}}-pg-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{.Release.Name}}-pg
+  template:
+    metadata:
+      labels:
+        app: {{.Release.Name}}-pg
+    spec:
+      containers:
+        - name: {{.Release.Name}}-pg
+          image: {{ .Values.image.name }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: {{ include "keycloak-pg.secret-name" . }}
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: {{ include "keycloak-pg.secret-name" . }}
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  key: database
+                  name: {{ include "keycloak-pg.secret-name" . }}
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: {{.Release.Name}}-pg-volume
+      volumes:
+        - name: {{.Release.Name}}-pg-volume
+          persistentVolumeClaim:
+            claimName: {{.Release.Name}}-pg-pvc

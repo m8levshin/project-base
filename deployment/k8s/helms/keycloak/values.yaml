@@ -1,0 +1,14 @@
+image:
+  name: quay.io/keycloak/keycloak:20.0
+
+hostname: auth.mlevsh.in
+
+security:
+  defaultCredentials:
+    username: admin
+    password: admin
+
+tsl:
+  server: https://acme-v02.api.letsencrypt.org/directory
+  secretName: auth-keycloack-cert
+  email: maxim8levshin@gmail.com

@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Chart.Name}}-deployment
+  labels:
+    app: {{.Chart.Name}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{.Chart.Name}}
+  template:
+    metadata:
+      labels:
+        app: {{.Chart.Name}}
+    spec:
+      containers:
+        - name: {{.Chart.Name}}
+          image: {{.Values.image.name}}
+          args: ["start", "--cache-stack=kubernetes", "--https-port=443"]
+          volumeMounts:
+            - name: certs
+              mountPath: "/etc/certs"
+              readOnly: true
+          env:
+            - name: KEYCLOAK_ADMIN
+              value: {{.Values.security.defaultCredentials.username}}
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              value: {{.Values.security.defaultCredentials.password}}
+            - name: KC_HTTPS_CERTIFICATE_FILE
+              value: "/etc/certs/tls.crt"
+            - name: KC_HTTPS_CERTIFICATE_KEY_FILE
+              value: "/etc/certs/tls.key"
+            - name: KC_HEALTH_ENABLED
+              value: "true"
+            - name: KC_METRICS_ENABLED
+              value: "true"
+            - name: KC_PROXY
+              value: "edge"
+            - name: KC_HOSTNAME
+              value: {{.Values.hostname}}
+            - name: KC_DB
+              value: postgres
+            - name: KC_DB_URL
+              value: "jdbc:postgresql://{{ include "keycloak-pg.service-name" . }}:5432/keycloak"
+            - name: KC_DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "keycloak-pg.secret-name" .  }}
+                  key: username
+            - name: KC_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "keycloak-pg.secret-name" . }}
+                  key: password
+            - name: jgroups.dns.query
+              value: keycloak
+          ports:
+            - name: jgroups
+              containerPort: 7600
+            - name: https
+              containerPort: 443
+          readinessProbe:
+            httpGet:
+              scheme: HTTPS
+              path: /health/ready
+              port: 443
+            initialDelaySeconds: 20
+            periodSeconds: 1
+      volumes:
+        - name: certs
+          secret:
+            secretName: {{.Values.tsl.secretName}}
