@@ -9,7 +9,7 @@ dependencies {
     api(Dependecies.Ktor.Server.authPlugin)
     implementation(Dependecies.Ktor.Server.jwtAuthPlugin)
 
-    implementation(project(":ktor-libs:error"))
+    implementation(project(":libs:ktor-libs:error"))
     implementation(project(":libs:logging"))
 }
 

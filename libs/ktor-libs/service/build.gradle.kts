@@ -10,10 +10,10 @@ dependencies {
     openTelemetryDependecies.forEach(this::api)
 
     api(project(":libs:logging"))
-    api(project(":ktor-libs:error"))
-    api(project(":ktor-libs:plugins"))
-    api(project(":ktor-libs:config"))
-    api(project(":ktor-libs:oauth2-resource"))
+    api(project(":libs:ktor-libs:error"))
+    api(project(":libs:ktor-libs:plugins"))
+    api(project(":libs:ktor-libs:config"))
+    api(project(":libs:ktor-libs:oauth2-resource"))
 
     api(Dependecies.Common.micrometerPrometheusRegistry)
 

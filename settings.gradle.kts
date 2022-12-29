@@ -6,14 +6,14 @@ arrayOf(
     "config",
     "oauth2-resource"
 ).forEach {
-    include("ktor-libs:$it")
+    include("libs:ktor-libs:$it")
 }
 
 // spring libs
 arrayOf(
     "service"
 ).forEach {
-    include("spring-libs:$it")
+    include("libs:spring-libs:$it")
 }
 
 // common libs
@@ -25,10 +25,9 @@ arrayOf(
 
 // services
 arrayOf(
-    "authorization-service",
     "spring-example-service",
     "token-handler-service",
     "ktor-example-service"
 ).forEach {
-    include(it)
+    include("services:$it")
 }

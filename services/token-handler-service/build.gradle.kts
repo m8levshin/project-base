@@ -6,10 +6,10 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":ktor-libs:service"))
-    implementation(project(":ktor-libs:plugins"))
-    implementation(project(":ktor-libs:error"))
-    implementation(project(":ktor-libs:config"))
+    implementation(project(":libs:ktor-libs:service"))
+    implementation(project(":libs:ktor-libs:plugins"))
+    implementation(project(":libs:ktor-libs:error"))
+    implementation(project(":libs:ktor-libs:config"))
 
     ktorServerDependecies.forEach(this::implementation)
     ktorClientDependecies.forEach(this::implementation)
@@ -23,5 +23,5 @@ dependencies {
 }
 
 application {
-    mainClass.set("com.mlevshin.projectbase.KtorExampleServiceKt")
+    mainClass.set("com.mlevshin.projectbase.TokenHandlerServiceKt")
 }

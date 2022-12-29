@@ -40,6 +40,6 @@ dependencies {
 
     implementation(Dependecies.Common.micrometerPrometheusRegistry)
 
-    implementation(project(":spring-libs:service"))
+    implementation(project(":libs:spring-libs:service"))
     implementation(project(":libs:logging"))
 }
