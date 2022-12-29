@@ -1,5 +1,8 @@
 service:
   port: 8010
+  tracing:
+    otelEndpoint: http://localhost:60658
+
 
 security:
   oauth2:

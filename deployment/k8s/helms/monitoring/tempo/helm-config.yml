@@ -1,0 +1,7 @@
+tempo:
+  searchEnabled: true
+persistence:
+  enabled: true
+  accessModes:
+    - ReadWriteOnce
+  size: 2Gi

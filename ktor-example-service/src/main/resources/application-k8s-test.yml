@@ -1,7 +1,7 @@
 service:
   port: 8080
   tracing:
-    otelEndpoint: http://jaeger-collector.monitoring:4317
+    otelEndpoint: http://tempo.monitoring:4317
 
 
 security:

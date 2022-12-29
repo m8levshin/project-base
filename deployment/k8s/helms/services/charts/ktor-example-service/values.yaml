@@ -1,5 +1,5 @@
 image: maxim8levshin/ktor-example-service
-imageVersion: v6
+imageVersion: v7
 containerPort: 8080
 replicaCount: 1
 targetPort: 80
