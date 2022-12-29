@@ -4,9 +4,37 @@ loki:
     enabled: true
     size: 2Gi
     storageClassName: local-path
+  datasource:
+    jsonData: |
+      derivedFields:
+        - datasourceUid: Tempo
+          matcherRegex: \"traceId\":\"(\w+)\"
+          name: traceId
+          url: '$${__value.raw}'
 
 promtail:
   enabled: true
 
 grafana:
   enabled: true
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Prometheus
+          type: prometheus
+          uid: Prometheus
+          url: http://prometheus-server
+        - name: Tempo
+          type: tempo
+          uid: Tempo
+          url: http://tempo:3100
+          jsonData:
+            tracesToLogs:
+              datasourceUid: 'Loki'
+              mappedTags: [ { key: 'service.name', value: 'app' } ]
+              mapTagNamesEnabled: true
+              spanStartTimeShift: '2m'
+              spanEndTimeShift: '2m'
+              filterByTraceID: true
+              filterBySpanID: false
