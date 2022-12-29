@@ -1,5 +1,5 @@
 # todo: change to private repository
-image: maxim8levshin/ktor-example-service
+image: maxim8levshin/token-handler-service
 imageVersion: v7
 containerPort: 8080
 replicaCount: 1
