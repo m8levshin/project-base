@@ -13,7 +13,7 @@ spring:
   sleuth:
     otel:
       config:
-        custom-span-name: true
+        customSpanName: true
         trace-id-ratio-based: 1
       exporter:
         otlp:

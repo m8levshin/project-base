@@ -14,15 +14,16 @@ import io.ktor.server.application.hooks.ResponseSent
 import io.ktor.server.application.log
 import io.ktor.server.request.httpMethod
 import io.ktor.server.request.path
+import io.ktor.server.request.receiveText
 import io.ktor.util.AttributeKey
-import io.ktor.utils.io.jvm.javaio.toInputStream
 import org.slf4j.event.Level
 
 
 private const val RESPONSE_OBJECT_KEY_STRING: String = "response_object_key"
+private const val CALL_LOGGING_PLUGIN_NAME = "CallLogging"
 
 val CallLogging: ApplicationPlugin<CallLoggingConfig> = createApplicationPlugin(
-    "CallLogging",
+    CALL_LOGGING_PLUGIN_NAME,
     ::CallLoggingConfig
 ) {
     val log = pluginConfig.logger ?: application.log
@@ -38,31 +39,27 @@ val CallLogging: ApplicationPlugin<CallLoggingConfig> = createApplicationPlugin(
         Level.TRACE -> log.trace(message)
     }
 
-    fun logRequest(call: ApplicationCall) {
+    suspend fun logRequest(call: ApplicationCall) {
+
+
         if (filters.isEmpty() || filters.any { it(call) }) {
-            val loggingRequest = LoggingRequest(
-                call.request.path(),
-                call.request.httpMethod.value,
-                objectMapper.readTree(call.request.receiveChannel().toInputStream())
-            )
-            log(objectMapper.writeValueAsString(loggingRequest))
+            log("path: ${call.request.path()}, method: ${call.request.httpMethod.value}")
+            log("requestBody: " + call.receiveText().ifEmpty { "null" })
         }
     }
 
     fun logResponse(call: ApplicationCall) {
         if (filters.isEmpty() || filters.any { it(call) }) {
-            val loggingResponse = LoggingResponse(
-                call.request.path(),
-                call.request.httpMethod.value,
-                call.response.status()?.value ?: 200,
-                call.attributes[responseObjectAttributeKey]
-            )
-            log(objectMapper.writeValueAsString(loggingResponse))
+            val any = call.attributes.getOrNull(responseObjectAttributeKey)
+            val path = call.request.path()
+            val responseCode = call.response.status()?.value ?: 200
+            val responseRawString = objectMapper.writeValueAsString(any)
+            log( "status: $responseCode, responseBody: $responseRawString")
         }
     }
 
     fun PluginBuilder<CallLoggingConfig>.setupCallLogging(
-        logRequest: (ApplicationCall) -> Unit,
+        logRequest: suspend (ApplicationCall) -> Unit,
         logResponse: (ApplicationCall) -> Unit
     ) {
         onCall {logRequest(it) }
