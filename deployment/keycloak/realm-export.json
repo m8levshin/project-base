@@ -96,15 +96,6 @@
         "clientRole": false,
         "containerId": "823522f8-81dc-4d0e-a209-a7358e6483bf",
         "attributes": {}
-      },
-      {
-        "id": "47849b1d-8b55-4f5f-ac92-c7ee7405aea8",
-        "name": "user",
-        "description": "",
-        "composite": false,
-        "clientRole": false,
-        "containerId": "823522f8-81dc-4d0e-a209-a7358e6483bf",
-        "attributes": {}
       }
     ],
     "client": {
@@ -332,7 +323,24 @@
       ],
       "security-admin-console": [],
       "admin-cli": [],
-      "app-web-client": [],
+      "app-web-client": [
+        {
+          "id": "d724bccd-e5f8-446e-bdc9-211b82eab5fe",
+          "name": "admin",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "4ef40316-54cd-4d0f-9c4c-792b64553c0f",
+          "attributes": {}
+        },
+        {
+          "id": "0f0d32f6-64b8-4b83-b4f1-a8640e78cbdf",
+          "name": "user",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "4ef40316-54cd-4d0f-9c4c-792b64553c0f",
+          "attributes": {}
+        }
+      ],
       "account-console": [],
       "broker": [
         {
@@ -437,12 +445,30 @@
   },
   "groups": [
     {
+      "id": "02385901-7286-414d-b2cb-0a5a0dd0d2b7",
+      "name": "admins",
+      "path": "/admins",
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {
+        "app-web-client": [
+          "admin",
+          "user"
+        ]
+      },
+      "subGroups": []
+    },
+    {
       "id": "bf28acca-5a4e-4085-85a1-2ad93263aeb4",
       "name": "users",
       "path": "/users",
       "attributes": {},
       "realmRoles": [],
-      "clientRoles": {},
+      "clientRoles": {
+        "app-web-client": [
+          "user"
+        ]
+      },
       "subGroups": []
     }
   ],
@@ -520,12 +546,6 @@
       "client": "app-backend",
       "roles": [
         "backend"
-      ]
-    },
-    {
-      "client": "app-web-client",
-      "roles": [
-        "user"
       ]
     },
     {
@@ -877,16 +897,41 @@
       "authenticationFlowBindingOverrides": {},
       "fullScopeAllowed": false,
       "nodeReRegistrationTimeout": -1,
+      "protocolMappers": [
+        {
+          "id": "5151c2a2-a96c-47b4-9c32-9c507c3f708e",
+          "name": "audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "included.client.audience": "app-web-client",
+            "id.token.claim": "false",
+            "access.token.claim": "true"
+          }
+        },
+        {
+          "id": "84ca4549-7667-4eef-9bad-d0336d4dcd7e",
+          "name": "groups",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-group-membership-mapper",
+          "consentRequired": false,
+          "config": {
+            "full.path": "false",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "groups",
+            "userinfo.token.claim": "true"
+          }
+        }
+      ],
       "defaultClientScopes": [
         "roles",
         "profile",
         "offline_access",
         "email"
       ],
-      "optionalClientScopes": [
-        "address",
-        "phone"
-      ]
+      "optionalClientScopes": []
     },
     {
       "id": "2900555d-4565-4ce9-a236-bf18894bc15b",
@@ -1600,7 +1645,7 @@
     ],
     "org.keycloak.userprofile.UserProfileProvider": [
       {
-        "id": "0c49013f-0e94-4fe4-b9c3-cc7f547757f7",
+        "id": "c2172d7c-026d-461c-bc25-c0e6faa9f943",
         "providerId": "declarative-user-profile",
         "subComponents": {},
         "config": {}
@@ -2356,6 +2401,7 @@
     "clientOfflineSessionMaxLifespan": "0",
     "clientSessionIdleTimeout": "0",
     "actionTokenGeneratedByUserLifespan-execute-actions": "",
+    "userProfileEnabled": "false",
     "actionTokenGeneratedByUserLifespan-verify-email": "",
     "clientOfflineSessionIdleTimeout": "0",
     "actionTokenGeneratedByUserLifespan-reset-credentials": "",

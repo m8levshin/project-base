@@ -48,6 +48,10 @@ object Dependecies {
             const val openTelemetryExporterOtlp = "io.opentelemetry:opentelemetry-exporter-otlp:$openTelemetryVersoin"
             const val openTelemetrySemconv = "io.opentelemetry:opentelemetry-semconv:${Versions.openTelemetry}-alpha"
         }
+
+        object Testing {
+            const val mockk = "io.mockk:mockk:${Versions.mockkVersion}"
+        }
     }
 
     object Spring {

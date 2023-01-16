@@ -7,3 +7,6 @@ spring:
       resourceserver:
         jwt:
           jwk-set-uri: http://127.0.0.1:9000/oauth2/jwks
+          audiences:
+            - app-web-client
+            - backend

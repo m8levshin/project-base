@@ -1,13 +1,13 @@
 service:
   port: 8080
   tracing:
-    otelEndpoint: http://tempo.monitoring:4317
-
+    otelEndpoint: ${OTEL_ENDPOINT}
 
 security:
   oauth2:
     resource:
-      issuer: "http://authorization-service:8080"
-      audience: test
-      realm: test
-      jwkSetUrl: "http://authorization-service:8080/oauth2/jwks"
+      issuer: ${OAUTH_ISSUER}
+      audiences:
+        - app-web-client
+        - backend
+      jwkSetUrl: "${OAUTH_ISSUER}/protocol/openid-connect/certs"

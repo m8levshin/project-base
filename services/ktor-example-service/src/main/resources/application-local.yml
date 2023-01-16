@@ -6,6 +6,7 @@ security:
   oauth2:
     resource:
       issuer: "http://127.0.0.1:9000"
-      audience: test
-      realm: test
+      audiences:
+        - app-web-client
+        - backend
       jwkSetUrl: "http://127.0.0.1:9000/oauth2/jwks"

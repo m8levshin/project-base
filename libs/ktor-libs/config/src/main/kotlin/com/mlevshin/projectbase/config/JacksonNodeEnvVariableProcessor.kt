@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.databind.node.TextNode
 
 //Regexp string for parsing env variables in configuration files. Supported formats: ${ENV}, ${ENV:::default_value}
-private const val ENV_VARIABLE_REGEXP_STRING = "^\\$\\{([^}:]+)(?::::([^}]+))?}\$"
+private const val ENV_VARIABLE_REGEXP_STRING = "\\$\\{([^}:]+)(?::::([^}]+))?}"
 class JacksonNodeEnvVariableProcessor : JacksonNodeProcessor {
     private val envValueRegex = ENV_VARIABLE_REGEXP_STRING.toRegex()
     override fun process(node: JsonNode): JsonNode {
@@ -21,11 +21,13 @@ class JacksonNodeEnvVariableProcessor : JacksonNodeProcessor {
     private fun processTextNodeWithEnvVariableReplacing(node: JsonNode): JsonNode {
         val matchResult = envValueRegex.find(node.textValue()) ?: return node
         val envVariableName = matchResult.groups[1]?.value
-        val resultValue = System.getenv(envVariableName) ?: if (matchResult.groups[2] != null) {
+
+        val envVariableValue = System.getenv(envVariableName) ?: if (matchResult.groups[2] != null) {
             matchResult.groups[2]!!.value
         } else {
             throw AssertionError()
         }
+        val resultValue = envValueRegex.replace(node.textValue(), envVariableValue)
         return TextNode(resultValue)
     }
 

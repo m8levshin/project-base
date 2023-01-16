@@ -33,16 +33,11 @@ fun Application.configureResourceServerSecurity() {
 
         install(Authentication) {
             jwt(OAuth2ResourceConfiguration.OAUTH2_SECURITY_CONFIGURATION) {
-                realm = jwkProviderProperties.realm
                 verifier(jwkProvider, jwkProviderProperties.issuer) {
-                    acceptLeeway(3)
+                    withAudience(*jwkProviderProperties.audiences)
                 }
                 validate { credential ->
-                    if (credential.payload.getClaim("username").asString() != "") {
-                        JWTPrincipal(credential.payload)
-                    } else {
-                        null
-                    }
+                    JWTPrincipal(credential.payload)
                 }
                 challenge { defaultScheme, realm ->
                     throw ForbiddenException()

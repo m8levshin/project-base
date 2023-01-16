@@ -7,7 +7,8 @@ service:
 security:
   oauth2:
     resource:
-      issuer: "http://authorization-service:8080"
-      audience: test
-      realm: test
-      jwkSetUrl: "http://authorization-service:8080/oauth2/jwks"
+      issuer: "http://keycloak:8080"
+      audiences:
+        - app-web-client
+        - backend
+      jwkSetUrl: "http://keycloak:8080/oauth2/jwks"

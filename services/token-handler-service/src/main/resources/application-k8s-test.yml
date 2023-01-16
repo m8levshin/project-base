@@ -1,0 +1,15 @@
+service:
+  port: 8080
+  tracing:
+    otelEndpoint: ${OTEL_ENDPOINT}
+security:
+  session:
+    encryptionKey: "${SECURITY_SESSION_ENCRYPTION_KEY}"
+    signKey: "${SECURITY_SESSION_SIGN_KEY}"
+  oauth2:
+    authorizeUrl: "${OAUTH_ISSUER}/protocol/openid-connect/auth"
+    accessTokenUrl: "${OAUTH_ISSUER}/protocol/openid-connect/token"
+    callbackUrl: "${APP_MAIN_DOMAIN}/api/token-handler-service/oauth/callback"
+    clientId: "${OAUTH_CLIENT_ID}"
+    clientSecret: "${OAUTH_CLIENT_SECRET}"
+    defaultScopes: "offline_access openid email profile ui_access"

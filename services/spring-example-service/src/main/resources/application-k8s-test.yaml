@@ -6,7 +6,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://127.0.0.1:9000/oauth2/jwks
+          issuer-uri: "${OAUTH_ISSUER}/protocol/openid-connect/certs"
           audiences:
             - app-web-client
             - backend
@@ -18,7 +18,7 @@ spring:
         trace-id-ratio-based: 1
       exporter:
         otlp:
-          endpoint: http://otel-collector:4317
+          endpoint: ${OTEL_ENDPOINT}
     propagation:
       type: W3C
 
