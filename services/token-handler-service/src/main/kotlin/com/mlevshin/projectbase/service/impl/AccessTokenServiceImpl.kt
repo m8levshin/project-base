@@ -52,7 +52,6 @@ class AccessTokenServiceImpl(
                     append(OAuthConstants.CLIENT_SECRET_PARAM_NAME, oAuthConfig.clientSecret)
                     append(OAuthConstants.GRANT_TYPE_PARAM_NAME, OAuthConstants.AUTH_CODE_GRANT_TYPE_VALUE)
                     append(OAuthConstants.CODE_VERIFIER_PARAM_NAME, codeChallenge)
-                    append(OAuthConstants.CODE_VERIFIER_PARAM_NAME, codeChallenge)
                     append(OAuthConstants.AUTH_CODE_PARAM_NAME, code)
                     append(OAuthConstants.REDIRECT_URI_PARAM_NAME, oAuthConfig.callbackUrl)
                 },

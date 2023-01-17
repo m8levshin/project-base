@@ -1,3 +1,7 @@
 global:
-  hostname: morty.mlevsh.in
+  hostname: morty.k8s.mlevsh.in
   profile: k8s-test
+  oauth:
+    client:
+      id: app-web-client
+      secret: "//todo"

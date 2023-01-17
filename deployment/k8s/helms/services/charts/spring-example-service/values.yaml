@@ -1,6 +1,6 @@
 # todo: change to private repository
 image: maxim8levshin/spring-example-service
-imageVersion: v7
+imageVersion: v1
 containerPort: 8080
 replicaCount: 1
 targetPort: 80

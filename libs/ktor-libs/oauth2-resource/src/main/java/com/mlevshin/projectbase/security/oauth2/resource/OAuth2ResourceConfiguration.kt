@@ -34,7 +34,7 @@ fun Application.configureResourceServerSecurity() {
         install(Authentication) {
             jwt(OAuth2ResourceConfiguration.OAUTH2_SECURITY_CONFIGURATION) {
                 verifier(jwkProvider, jwkProviderProperties.issuer) {
-                    withAudience(*jwkProviderProperties.audiences)
+                    withAnyOfAudience(*jwkProviderProperties.audiences)
                 }
                 validate { credential ->
                     JWTPrincipal(credential.payload)

@@ -13,4 +13,4 @@ security:
     callbackUrl: "http://127.0.0.1:9010/api/oauth/callback"
     clientId: "testApp"
     clientSecret: "testApp"
-    defaultScopes: "offline_access openid email profile ui_access"
+    defaultScopes: "offline_access openid email profile"

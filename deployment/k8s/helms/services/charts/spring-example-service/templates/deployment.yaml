@@ -21,8 +21,12 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           image: {{ .Values.image }}:{{ .Values.imageVersion }}
+          imagePullPolicy: Always
           env:
-            - name: KTOR_PROFILES_ACTIVE
+            - name: SPRING_PROFILES_ACTIVE
               value: {{ .Values.global.profile }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "core-config.name" .}}
           ports:
             - containerPort: {{.Values.containerPort }}

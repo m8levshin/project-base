@@ -25,7 +25,7 @@ class JacksonNodeEnvVariableProcessor : JacksonNodeProcessor {
         val envVariableValue = System.getenv(envVariableName) ?: if (matchResult.groups[2] != null) {
             matchResult.groups[2]!!.value
         } else {
-            throw AssertionError()
+            throw AssertionError("There isn't $envVariableName env variable or default value for it.")
         }
         val resultValue = envValueRegex.replace(node.textValue(), envVariableValue)
         return TextNode(resultValue)
@@ -40,11 +40,9 @@ class JacksonNodeEnvVariableProcessor : JacksonNodeProcessor {
     }
 
     private fun processArrayNode(node: ArrayNode): JsonNode {
-        for ((i, value) in node.withIndex()) {
-            val processedValue = process(value)
-            node.remove(i)
-            node.add(processedValue)
-        }
+        val processedArrayElements = node.map(::process)
+        node.removeAll()
+        node.addAll(processedArrayElements)
         return node
     }
 }

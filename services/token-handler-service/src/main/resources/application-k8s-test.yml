@@ -12,4 +12,4 @@ security:
     callbackUrl: "${APP_MAIN_DOMAIN}/api/token-handler-service/oauth/callback"
     clientId: "${OAUTH_CLIENT_ID}"
     clientSecret: "${OAUTH_CLIENT_SECRET}"
-    defaultScopes: "offline_access openid email profile ui_access"
+    defaultScopes: "offline_access openid email profile"

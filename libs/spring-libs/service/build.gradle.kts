@@ -5,15 +5,19 @@ plugins {
     kotlin("plugin.spring") version Versions.kotlin
 }
 
-repositories {
-    mavenCentral()
-}
 
 dependencyManagement {
     imports {
         mavenBom(SpringDependencyManagement.springCloud)
         mavenBom(SpringDependencyManagement.springCloudSleuthOtel)
     }
+}
+tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+    enabled = false
+}
+
+tasks.getByName<Jar>("jar") {
+    enabled = true
 }
 
 dependencies {
